@@ -51,15 +51,51 @@ document.querySelector("#start").addEventListener("click", () => {
 });
 
 function test() {
-  const dah = new Audio("dah.mp3");
-  dah.play();
-  dah.addEventListener("ended", () => {
-    console.log("dah ended");
-    dah.play();
+  let uris = ["dit.mp3", "dah.mp3", "dit.mp3"];
+  let proms = uris.map((uri) => fetch(uri).then((r) => r.blob()));
+
+  Promise.all(proms).then((blobs) => {
+    let blob = new Blob(blobs);
+    let blobUrl = URL.createObjectURL(blob);
+    let audio = new Audio(blobUrl);
+    audio.play();
   });
 }
 
 function playMorse(message) {
+  //   let uris = ["dit.mp3", "dah.mp3", "dit.mp3"];
+
+  let uris = [];
+
+  let morse = convertToMorse(message).split("");
+
+  morse.forEach((el) => {
+    if (el === ".") {
+      uris.push("dit.mp3");
+    } else if (el === "-") {
+      uris.push("dah.mp3");
+    } else if (el === " ") {
+      uris.push("space.mp3");
+    } else if (el === "/") {
+      uris.push("space.mp3");
+      uris.push("space.mp3");
+      uris.push("space.mp3");
+      uris.push("space.mp3");
+      uris.push("space.mp3");
+      uris.push("space.mp3");
+      uris.push("space.mp3");
+    }
+  });
+
+  let proms = uris.map((uri) => fetch(uri).then((r) => r.blob()));
+
+  Promise.all(proms).then((blobs) => {
+    let blob = new Blob(blobs);
+    let blobUrl = URL.createObjectURL(blob);
+    let audio = new Audio(blobUrl);
+    audio.play();
+  });
+
   //   const dah = new Audio("dah.mp3");
   //   const dit = new Audio("dit.mp3");
   //   const morseMessage = convertToMorse(message).split("");
@@ -74,35 +110,32 @@ function playMorse(message) {
   //     }
   //     index++;
   //   }, 180);
-  const morseMessage = convertToMorse(message).split("");
-  let audioMessage = [];
-  console.log(morseMessage);
-  morseMessage.forEach((el) => {
-    if (el === ".") {
-      audioMessage.push(new Audio("dit.mp3"));
-    } else if (el === "-") {
-      audioMessage.push(new Audio("dah.mp3"));
-    } else if (el === " ") {
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-    } else if (el === "/") {
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-      audioMessage.push(new Audio("space.mp3"));
-    }
-  });
-
-  console.log(audioMessage);
-  let index = 0;
-
-  //   audioMessage[index].play();
-
-  playAuido(audioMessage, index);
+  //   const morseMessage = convertToMorse(message).split("");
+  //   let audioMessage = [];
+  //   console.log(morseMessage);
+  //   morseMessage.forEach((el) => {
+  //     if (el === ".") {
+  //       audioMessage.push(new Audio("dit.mp3"));
+  //     } else if (el === "-") {
+  //       audioMessage.push(new Audio("dah.mp3"));
+  //     } else if (el === " ") {
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //     } else if (el === "/") {
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //       audioMessage.push(new Audio("space.mp3"));
+  //     }
+  //   });
+  //   console.log(audioMessage);
+  //   let index = 0;
+  //   //   audioMessage[index].play();
+  //   playAuido(audioMessage, index);
 }
 
 function playAuido(audio, index) {
