@@ -47,6 +47,7 @@ console.log(convertToMorse("Hello World"));
 
 document.querySelector("#start").addEventListener("click", () => {
   playMorse(document.getElementById("message").value || "Hello World");
+  document.getElementById("out").innerHTML = convertToMorse(document.getElementById("message").value || "Hello World");
   //   test();
 });
 
@@ -94,6 +95,7 @@ function playMorse(message) {
     let blobUrl = URL.createObjectURL(blob);
     let audio = new Audio(blobUrl);
     audio.play();
+    document.querySelector("body").innerHTML += `<a href="${blobUrl}" download="morse.mp3">Download</a>`;
   });
 
   //   const dah = new Audio("dah.mp3");
